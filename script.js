@@ -3,7 +3,7 @@ const SUPABASE_URL = 'https://hiurjqyihctwgxdchjsd.supabase.co';
 
 // Вставь публичный Publishable key или старый anon key из Supabase.
 // Никогда не вставляй сюда service_role или secret key.
-const SUPABASE_ANON_KEY = 'sb_publishable_-lM8jHcBpEnIe52ybgZUkw_yflJMOW7';
+const SUPABASE_ANON_KEY = 'sb_publishable_foJKsc51qNjfvrLgCDpoMQ_VX4SpzFO';
 
 const loginButtons = [
   document.getElementById('discord-login'),
