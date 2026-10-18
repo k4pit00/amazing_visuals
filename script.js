@@ -1,73 +1,98 @@
-const modal = document.querySelector('#authModal');
-const closeModalButton = document.querySelector('#closeModal');
-const registerForm = document.querySelector('#registerForm');
-const loginForm = document.querySelector('#loginForm');
-const nickInput = document.querySelector('#nickname');
-const nickCounter = document.querySelector('#nickCounter');
-const formError = document.querySelector('#formError');
-const loginError = document.querySelector('#loginError');
-const authTitle = document.querySelector('#authTitle');
-const authSubtitle = document.querySelector('#authSubtitle');
-const toast = document.querySelector('#toast');
-let toastTimer;
 
-function openAuth(mode = 'register') {
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden', 'false');
-  setAuthMode(mode);
-  document.body.style.overflow = 'hidden';
+const SUPABASE_URL = 'https://hiurjqyihctwgxdchjsd.supabase.co';
+
+// Вставь публичный Publishable key или старый anon key из Supabase.
+// Никогда не вставляй сюда service_role или secret key.
+const SUPABASE_ANON_KEY = 'sb_publishable_-lM8jHcBpEnIe52ybgZUkw_yflJMOW7';
+
+const loginButtons = [
+  document.getElementById('discord-login'),
+  document.getElementById('discord-login-bottom')
+].filter(Boolean);
+
+const statusMessage = document.getElementById('status');
+
+function showMessage(message) {
+  statusMessage.textContent = message;
 }
-function closeAuth() {
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
+
+if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.trim() === '') {
+  loginButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      showMessage('Добавь публичный ключ Supabase в script.js.');
+    });
+  });
+} else if (window.supabase) {
+  loginButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      showMessage('Сначала добавь публичный ключ Supabase в файл script.js.');
+    });
+  });
+} else if (window.supabase) {
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  loginButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      loginButtons.forEach(item => {
+        item.disabled = true;
+      });
+
+      showMessage('Перенаправляем в Discord...');
+
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'discord',
+        options: {
+          redirectTo:
+            window.location.origin + window.location.pathname
+        }
+      });
+
+      if (error) {
+        showMessage('Ошибка входа: ' + error.message);
+
+        loginButtons.forEach(item => {
+          item.disabled = false;
+        });
+      }
+    });
+  });
+
+  async function checkSession() {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error) {
+      showMessage('Не удалось проверить сессию: ' + error.message);
+      return;
+    }
+
+    if (data.session) {
+      const user = data.session.user;
+      const name =
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        'пользователь';
+
+      loginButtons.forEach(button => {
+        const label = button.querySelector('span');
+
+        if (label) {
+          label.textContent = 'Вы вошли через Discord';
+        } else {
+          button.textContent = 'Вы вошли через Discord';
+        }
+
+        button.disabled = true;
+        button.title = 'Вы вошли как ' + name;
+      });
+
+      showMessage('Вы вошли через Discord: ' + name);
+    }
+  }
+
+  checkSession();
+} else {
+  showMessage('Не удалось загрузить Supabase. Обнови страницу.');
 }
-function setAuthMode(mode) {
-  const isRegister = mode === 'register';
-  registerForm.classList.toggle('hidden', !isRegister);
-  loginForm.classList.toggle('hidden', isRegister);
-  document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === mode));
-  authTitle.textContent = isRegister ? 'Создать аккаунт' : 'С возвращением';
-  authSubtitle.textContent = isRegister ? 'Присоединяйся к сообществу AmazingVisual.' : 'Войди в свой профиль AmazingVisual.';
-  formError.textContent = '';
-  loginError.textContent = '';
-}
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
-}
-document.querySelectorAll('[data-open-auth]').forEach(button => button.addEventListener('click', () => openAuth(button.dataset.openAuth)));
-document.querySelectorAll('[data-tab]').forEach(button => button.addEventListener('click', () => setAuthMode(button.dataset.tab)));
-closeModalButton.addEventListener('click', closeAuth);
-modal.addEventListener('click', event => { if (event.target === modal) closeAuth(); });
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeAuth(); });
-nickInput.addEventListener('input', () => {
-  if (nickInput.value.length > 16) nickInput.value = nickInput.value.slice(0, 16);
-  nickCounter.textContent = nickInput.value.length;
-  formError.textContent = '';
-});
-registerForm.addEventListener('submit', event => {
-  event.preventDefault();
-  const nickname = nickInput.value.trim();
-  const email = document.querySelector('#email').value.trim();
-  const password = document.querySelector('#password').value;
-  const confirmPassword = document.querySelector('#confirmPassword').value;
-  if (!nickname) return formError.textContent = 'Введи игровой ник.';
-  if ([...nickname].length > 16) return formError.textContent = 'Ник должен содержать не более 16 символов.';
-  if (!/^[\p{L}\p{N}_ .-]+$/u.test(nickname)) return formError.textContent = 'Используй буквы, цифры, пробел, точку, дефис или _.';
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return formError.textContent = 'Введи корректный адрес электронной почты.';
-  if (password.length < 8) return formError.textContent = 'Пароль должен содержать минимум 8 символов.';
-  if (password !== confirmPassword) return formError.textContent = 'Пароли не совпадают.';
-  formError.textContent = 'Проверка пройдена, но регистрация ещё не подключена к серверу.';
-});
-loginForm.addEventListener('submit', event => {
-  event.preventDefault();
-  loginError.textContent = 'Вход пока не подключён к серверу.';
-});
-const mobileMenu = document.querySelector('#mobileMenu');
-const nav = document.querySelector('#nav');
-mobileMenu.addEventListener('click', () => nav.classList.toggle('open'));
-nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => nav.classList.remove('open')));
-document.querySelector('#year').textContent = new Date().getFullYear();
