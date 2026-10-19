@@ -1,8 +1,5 @@
 
 const SUPABASE_URL = 'https://hiurjqyihctwgxdchjsd.supabase.co';
-
-// Вставь публичный Publishable key или старый anon key из Supabase.
-// Никогда не вставляй сюда service_role или secret key.
 const SUPABASE_ANON_KEY = 'sb_publishable_foJKsc51qNjfvrLgCDpoMQ_VX4SpzFO';
 
 const loginButtons = [
@@ -13,22 +10,14 @@ const loginButtons = [
 const statusMessage = document.getElementById('status');
 
 function showMessage(message) {
-  statusMessage.textContent = message;
+  if (statusMessage) {
+    statusMessage.textContent = message;
+  }
 }
 
-if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.trim() === '') {
-  loginButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      showMessage('Добавь публичный ключ Supabase в script.js.');
-    });
-  });
-} else if (window.supabase) {
-  loginButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      showMessage('Сначала добавь публичный ключ Supabase в файл script.js.');
-    });
-  });
-} else if (window.supabase) {
+if (!window.supabase) {
+  showMessage('Supabase не загрузился. Проверь интернет и подключение библиотеки.');
+} else {
   const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
@@ -45,8 +34,7 @@ if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.trim() === '') {
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'discord',
         options: {
-          redirectTo:
-            window.location.origin + window.location.pathname
+          redirectTo: window.location.origin + window.location.pathname
         }
       });
 
@@ -60,11 +48,9 @@ if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.trim() === '') {
     });
   });
 
-  async function checkSession() {
-    const { data, error } = await supabaseClient.auth.getSession();
-
+  supabaseClient.auth.getSession().then(({ data, error }) => {
     if (error) {
-      showMessage('Не удалось проверить сессию: ' + error.message);
+      showMessage('Ошибка сессии: ' + error.message);
       return;
     }
 
@@ -79,20 +65,16 @@ if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.trim() === '') {
         const label = button.querySelector('span');
 
         if (label) {
-          label.textContent = 'Вы вошли через Discord';
+          label.textContent = 'Войти через Discord';
         } else {
-          button.textContent = 'Вы вошли через Discord';
+          button.textContent = 'Войти через Discord';
         }
 
-        button.disabled = true;
-        button.title = 'Вы вошли как ' + name;
+        button.disabled = false;
+        button.title = 'Выполнен вход: ' + name;
       });
 
-      showMessage('Вы вошли через Discord: ' + name);
+      showMessage('Ты вошёл через Discord: ' + name);
     }
-  }
-
-  checkSession();
-} else {
-  showMessage('Не удалось загрузить Supabase. Обнови страницу.');
+  });
 }
