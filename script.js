@@ -1,6 +1,6 @@
 
 const SUPABASE_URL = 'https://hiurjqyihctwgxdchjsd.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_foJKsc51qNjfvrLgCDpoMQ_VX4SpzFO';
+const SUPABASE_ANON_KEY = 'sb_publishable_-lM8jHcBpEnIe52ybgZUkw_yflJMOW7';
 
 const loginButtons = [
   document.getElementById('discord-login'),
