@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a12">
+  <title>Amazing Visuals — Official</title>
+  <link rel="icon" href="assets/logo.ico">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .av-page {
+      color: #f4f0ff;
+      background: #090a12;
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+    }
+    .av-wrap { width: min(1100px, 92%); margin: auto; }
+    .av-nav {
+      min-height: 76px; display: flex; align-items: center;
+      justify-content: space-between; gap: 20px;
+      border-bottom: 1px solid #292438;
+    }
+    .av-brand { display: flex; align-items: center; gap: 10px;
+      font-weight: 800; color: #c69aff; text-decoration: none; }
+    .av-brand img { width: 36px; height: 36px; object-fit: contain; }
+    .av-links { display: flex; gap: 22px; flex-wrap: wrap; }
+    .av-links a { color: #aaa3c0; font-size: 13px; text-decoration: none; }
+    .av-hero { padding: 85px 0 70px; }
+    .av-tag { color: #b98bff; letter-spacing: 3px; font-size: 11px; }
+    .av-hero h1 { font-size: clamp(44px, 8vw, 78px);
+      letter-spacing: -3px; line-height: 1.05; margin: 20px 0; }
+    .av-gradient { color: #b995ff; }
+    .av-hero p { max-width: 570px; line-height: 1.8; color: #aaa5bd; }
+    .av-btn { display: inline-flex; justify-content: center; align-items: center;
+      gap: 12px; padding: 14px 19px; border-radius: 8px;
+      color: #100c1b; background: linear-gradient(110deg,#c49aff,#7edeea);
+      font-weight: 800; font-size: 13px; text-decoration: none; border: 0; }
+    .av-section { padding: 65px 0; }
+    .av-section h2 { font-size: clamp(30px,5vw,46px); letter-spacing: -1.5px; }
+    .av-muted { color: #9690ab; line-height: 1.8; }
+    .av-plans { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+    .av-plan { background: #14121f; border: 1px solid #332844;
+      border-radius: 13px; padding: 24px; }
+    .av-plan.featured { border-color: #a77aff; background: #1b162b; }
+    .av-label { color: #c59aff; font-size: 11px; letter-spacing: 2px; }
+    .av-days { font-size: 54px; font-weight: 800; margin: 18px 0 6px; }
+    .av-plan p { color: #a7a0bb; font-size: 13px; }
+    .av-plan ul { padding-left: 18px; color: #d3cde2; font-size: 12px; line-height: 2.5; }
+    .av-buy { display: flex; width: 100%; box-sizing: border-box; margin-top: 15px; }
+    .av-gallery { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+    .av-shot { overflow: hidden; border: 1px solid #423252;
+      border-radius: 10px; background: #14121f; }
+    .av-shot img { display: block; width: 100%; height: auto; }
+    .av-shot span { display: block; padding: 12px; color: #c59aff;
+      font-size: 11px; letter-spacing: 1px; }
+    .av-wide { grid-column: 1 / -1; }
+    .av-faq details { padding: 18px 0; border-bottom: 1px solid #30283d; }
+    .av-faq summary { cursor: pointer; font-weight: 700; }
+    .av-faq details p { color: #aaa5bd; line-height: 1.8; font-size: 13px; }
+    .av-footer { padding: 30px 0; color: #817990; font-size: 12px;
+      border-top: 1px solid #292438; }
+    @media(max-width:700px) {
+      .av-nav { align-items: flex-start; padding: 18px 0; flex-direction: column; }
+      .av-links { gap: 14px; }
+      .av-plans { grid-template-columns: 1fr; }
+      .av-gallery { grid-template-columns: 1fr; }
+      .av-wide { grid-column: auto; }
+      .av-hero { padding-top: 60px; }
+    }
+  </style>
+</head>
+<body class="av-page">
+
+<header class="av-wrap av-nav">
+  <a class="av-brand" href="#home">
+    <img src="assets/logo.ico" alt="Amazing Visuals">
+    <span>AMAZING VISUALS</span>
+  </a>
+  <nav class="av-links">
+    <a href="#features">Преимущества</a>
+    <a href="#catalog">Покупка</a>
+    <a href="#screens">Скриншоты</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
+
+<main>
+  <section class="av-wrap av-hero" id="home">
+    <div class="av-tag">YOUR VISUAL EXPERIENCE</div>
+    <h1>Увидь игру<br>по <span class="av-gradient">новому.</span></h1>
+    <p>Amazing Visuals — визуальный апгрейд для твоего игрового мира. Выбери срок доступа и переходи напрямую к покупке на FunPay.</p>
+    <a class="av-btn" href="#catalog">Выбрать доступ ↗</a>
+  </section>
+
+  <section class="av-wrap av-section" id="features">
+    <div class="av-tag">01 / ПРЕИМУЩЕСТВА</div>
+    <h2>Ничего лишнего.<br><span class="av-gradient">Только Amazing Visuals.</span></h2>
+    <p class="av-muted">Выбирай подходящий срок и оформляй покупку на FunPay.</p>
+  </section>
+
+  <section class="av-section" id="catalog" style="background:#0e0d17">
+    <div class="av-wrap">
+      <div class="av-tag">02 / КАТАЛОГ</div>
+      <h2>Выбери свой <span class="av-gradient">доступ.</span></h2>
+      <p class="av-muted">Выбери подходящий период и нажми кнопку покупки.</p>
+
+      <div class="av-plans">
+        <article class="av-plan">
+          <div class="av-label">STARTER</div>
+          <div class="av-days">7 <span style="font-size:16px">дней</span></div>
+          <p>Короткий доступ</p>
+          <ul><li>Доступ на 7 дней</li><li>Покупка через FunPay</li><li>
+          <a class="av-btn av-buy" href="https://funpay.com/lots/offer?id=80090759" target="_blank" rel="noopener noreferrer">Купить на FunPay ↗</a>
+        </article>
+
+        <article class="av-plan featured">
+          <div class="av-label">★ POPULAR</div>
+          <div class="av-days">14 <span style="font-size:16px">дней</span></div>
+          <p>Оптимальный выбор</p>
+          <ul><li>Доступ на 14 дней</li><li>Покупка через FunPay</li><li>
+          <a class="av-btn av-buy" href="https://funpay.com/lots/offer?id=80090731" target="_blank" rel="noopener noreferrer">Купить на FunPay ↗</a>
+        </article>
+
+        <article class="av-plan">
+          <div class="av-label">ULTIMATE</div>
+          <div class="av-days">30 <span style="font-size:16px">дней</span></div>
+          <p>Максимум времени</p>
+          <ul><li>Доступ на 30 дней</li><li>Покупка через FunPay</li><li>
+          <a class="av-btn av-buy" href="https://funpay.com/lots/offer?id=80090733" target="_blank" rel="noopener noreferrer">Купить на FunPay ↗</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="av-wrap av-section" id="screens">
+    <div class="av-tag">03 / ИНТЕРФЕЙС ПЛАГИНА</div>
+    <h2>Посмотри <span class="av-gradient">внутри.</span></h2>
+    <p class="av-muted">Настройки эффектов, окружения, цветокоррекции и конфигураций Amazing Visuals.</p>
+
+    <div class="av-gallery">
+      <a class="av-shot av-wide" href="assets/player-fx.png" target="_blank" rel="noopener">
+        <img src="assets/player-fx.png" alt="Amazing Visuals Player FX">
+        <span>01 / PLAYER FX</span>
+      </a>
+      <a class="av-shot" href="assets/effects.png" target="_blank" rel="noopener">
+        <img src="assets/effects.png" alt="Amazing Visuals Effects">
+        <span>02 / EFFECTS</span>
+      </a>
+      <a class="av-shot" href="assets/world.png" target="_blank" rel="noopener">
+        <img src="assets/world.png" alt="Amazing Visuals World">
+        <span>03 / WORLD</span>
+      </a>
+      <a class="av-shot" href="assets/color-studio.png" target="_blank" rel="noopener">
+        <img src="assets/color-studio.png" alt="Amazing Visuals Color Studio">
+        <span>04 / COLOR STUDIO</span>
+      </a>
+      <a class="av-shot" href="assets/settings.png" target="_blank" rel="noopener">
+        <img src="assets/settings.png" alt="Amazing Visuals Settings">
+        <span>05 / SETTINGS</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="av-wrap av-section av-faq" id="faq">
+    <div class="av-tag">04 / FAQ</div>
+    <h2>Частые вопросы</h2>
+    <details>
+      <summary>Нужно ли регистрироваться?</summary>
+      <p>Нет. На этом сайте нет регистрации или личного кабинета.</p>
+    </details>
+    <details>
+      <summary>Как купить доступ?</summary>
+      <p>Выбери срок и нажми «Купить на FunPay». Ссылка откроется в новой вкладке.</p>
+    </details>
+    <details>
+      <summary>Где задать вопросы по заказу?</summary>
+      <p>Напиши продавцу через страницу заказа на FunPay.</p>
+    </details>
+  </section>
+</main>
+
+<footer class="av-wrap av-footer">
+  © 2026 AMAZING VISUALS · Все права защищены
+</footer>
+
+</body>
+</html>
